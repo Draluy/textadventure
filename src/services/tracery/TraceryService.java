@@ -13,11 +13,10 @@ import java.util.regex.Pattern;
 public class TraceryService {
 
     private final Map<String, Set<String>> symbols = new HashMap<>();
+    public static final TraceryService instance = new TraceryService();
 
     private TraceryService() {
     }
-
-    public static final TraceryService instance = new TraceryService();
 
 
     public String parse(String startingSymbol) {
