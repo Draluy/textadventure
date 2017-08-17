@@ -4,7 +4,13 @@ package models;
  * Created by draluy on 16/08/2017.
  */
 public enum Direction {
-    NORTH, SOUTH, EAST, WEST;
+    NORTH("nord"), SOUTH("sud"), EAST("est"), WEST("ouest");
+
+    private String value;
+
+    Direction(String value) {
+        this.value = value;
+    }
 
     public static Direction getOpposite(Direction direction) {
         if (direction == null) {

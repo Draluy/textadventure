@@ -9,6 +9,12 @@ import java.util.Map;
 public class Room {
     private Map<Direction, Room> exits = new HashMap<>();
 
+    public String doorDescription, roomDescription;
+
+    public Room (){
+
+    }
+
     public Map<Direction, Room> getExits() {
         return exits;
     }
