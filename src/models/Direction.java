@@ -12,6 +12,10 @@ public enum Direction {
         this.value = value;
     }
 
+    public String getValue() {
+        return value;
+    }
+
     public static Direction getOpposite(Direction direction) {
         if (direction == null) {
             return null;
