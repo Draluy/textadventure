@@ -16,8 +16,8 @@ public class TraceryService {
     public static final TraceryService instance = new TraceryService();
 
     private TraceryService() {
+        symbols.putAll(TraceryDict.symbols);
     }
-
 
     public String parse(String startingSymbol) {
         if (!symbols.containsKey(startingSymbol)) {

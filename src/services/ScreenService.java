@@ -22,8 +22,8 @@ public class ScreenService {
 
         final int size = room.getExits().size();
         String sortiesLabel = getDirectionsLabel(room);
-        out.println(size > 0 ?
-                "Vous êtes dans une pièce comportant " + size + " sorties, au " + sortiesLabel
+        out.println(size > 0 ? room.roomDescription+
+                "Vous apercevez " + size + " sorties, au " + sortiesLabel
                 : "Cette pièce n'a pas d'issues.");
 
         out.println("Quel est votre choix ?");

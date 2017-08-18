@@ -13,7 +13,11 @@ public class ModifierService {
         String result = token;
         switch (modifier) {
             case "f":
-                result = feminize(result);
+                result = feminize(result); break;
+            case "s":
+                result = pluralize(result);break;
+            case "c":
+                result = capitalize(result);break;
         }
 
         return result;
@@ -33,5 +37,19 @@ public class ModifierService {
         }
 
         return res;
+    }
+
+    private String pluralize(final String token) {
+        String res = token;
+
+        if (!token.endsWith("s")) {
+            res += "s";
+        }
+
+        return res;
+    }
+
+    private String capitalize(final String token) {
+        return token.substring(0, 1).toUpperCase() + token.substring(1);
     }
 }

@@ -1,5 +1,7 @@
 package models;
 
+import services.tracery.TraceryService;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +14,8 @@ public class Room {
     public String doorDescription, roomDescription;
 
     public Room (){
-
+        roomDescription = TraceryService.instance.parse("room_description");
+        doorDescription = TraceryService.instance.parse("porte_description");
     }
 
     public Map<Direction, Room> getExits() {
