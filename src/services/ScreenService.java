@@ -5,7 +5,6 @@ import models.Player;
 import models.Room;
 
 import java.io.PrintStream;
-import java.util.TreeSet;
 
 /**
  * Created by draluy on 16/08/2017.
@@ -23,27 +22,23 @@ public class ScreenService {
         final int size = room.getExits().size();
         String sortiesLabel = getDirectionsLabel(room);
         out.println(size > 0 ? room.roomDescription+
-                "Vous apercevez " + size + " sorties, au " + sortiesLabel
+                "Vous apercevez " + size + " sorties. " + sortiesLabel
                 : "Cette pièce n'a pas d'issues.");
 
         out.println("Quel est votre choix ?");
     }
 
     private String getDirectionsLabel(final Room room) {
-        String result = "";
+        String result="";
 
-        TreeSet<Direction> directions = new TreeSet<>(room.getExits().keySet());
-        int i = 0;
-        for (Direction dir : directions) {
+        for (Direction dir : room.getExits().keySet()) {
+            result+= "Au "+dir.getValue();
 
-            if (i == directions.size() - 1 && i > 0) {
-                result += " et ";
-            } else if (i > 0) {
-                result += ", ";
+            if (room.getExits().get(dir) != null){
+                result+= ", "+room.getExits().get(dir).doorDescription;
+            }else {
+                result+= ".";
             }
-
-            result += dir.getValue();
-            i++;
         }
 
         return result;

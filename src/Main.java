@@ -29,7 +29,7 @@ public class Main {
 
             directionOptional = Plan.instance.getCurrentRoom().getExits().keySet()
                     .stream()
-                    .filter(direction -> direction.name().equalsIgnoreCase(userInput))
+                    .filter(direction -> direction.getValue().equalsIgnoreCase(userInput))
                     .findFirst();
 
             //update model
