@@ -1,9 +1,6 @@
 package services.tracery;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,8 +40,15 @@ public class TraceryService {
             final String symbolToReplace = tokens[0];
             final String symbolToReplaceWithHashes = "#" + symbolToReplace + (tokens.length > 1? "."+tokens[1]:"") + "#";
 
-            String replacement = parseSymbol(tokens.length > 1 ? getRandomValue(symbolToReplace, tokens[1]) : getRandomValue(symbolToReplace));
-            sentence = sentence.replaceAll(symbolToReplaceWithHashes, replacement);
+            final Set<String> replacements = new HashSet<>();
+            while (sentence.contains(symbolToReplaceWithHashes)){
+                String replacement = parseSymbol(tokens.length > 1 ? getRandomValue(symbolToReplace, tokens[1]) : getRandomValue(symbolToReplace));
+                while (replacements.contains(replacement)){
+                    replacement = parseSymbol(tokens.length > 1 ? getRandomValue(symbolToReplace, tokens[1]) : getRandomValue(symbolToReplace));
+                }
+                sentence = sentence.replaceFirst(symbolToReplaceWithHashes, replacement);
+                replacements.add(replacement);
+            }
         }
 
         return sentence;
