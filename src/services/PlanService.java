@@ -1,7 +1,9 @@
 package services;
 
 import models.Direction;
+import models.Door;
 import models.Room;
+import services.tracery.TraceryService;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,8 +26,12 @@ public class PlanService {
     public void generateExitsRand(final Room room) {
         for (Direction dir : Direction.values()) {
             //do not overwrite a direction
-            if (!room.getExits().containsKey(dir) && shouldBeARoom()) {
-                room.getExits().put(dir, null);
+            boolean containsDirection = room.getExits().keySet()
+                    .stream()
+                    .anyMatch(door -> door.getDirection().equals(dir));
+
+            if (!containsDirection && shouldBeARoom()) {
+                room.getExits().put(new Door(dir), null);
             }
         }
     }

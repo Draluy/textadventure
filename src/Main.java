@@ -1,11 +1,9 @@
-import models.Direction;
-import models.Plan;
-import models.Player;
-import models.Room;
+import models.*;
 import services.InputService;
 import services.PlanService;
 import services.ScreenService;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class Main {
@@ -29,18 +27,30 @@ public class Main {
 
             directionOptional = Plan.instance.getCurrentRoom().getExits().keySet()
                     .stream()
-                    .filter(direction -> direction.getValue().equalsIgnoreCase(userInput))
+                    .filter(room -> room.getDirection().getValue().equalsIgnoreCase(userInput))
+                    .map(room -> room.getDirection())
                     .findFirst();
 
             //update model
             if (directionOptional.isPresent()) {
                 final Room currentRoom = Plan.instance.getCurrentRoom();
-                Room nextRoom = currentRoom.getExits().get(directionOptional.get());
-                if (nextRoom == null) {
+
+                final Direction dir = directionOptional.get();
+                Optional<Map.Entry<Door, Room>> entry = currentRoom.getExits().entrySet()
+                        .stream()
+                        .filter(doorRoomEntry -> doorRoomEntry.getKey().getDirection().equals(dir))
+                        .findAny();
+
+                Room nextRoom;
+                if (entry.get().getValue() == null) {
                     nextRoom = new Room();
-                    nextRoom.getExits().put(Direction.getOpposite(directionOptional.get()),currentRoom);
+                    final Door thisDoor = entry.get().getKey();
+                    final Door door = new Door(Direction.getOpposite(directionOptional.get()), thisDoor.getDescription());
+                    currentRoom.getExits().put(thisDoor, nextRoom);
+                    nextRoom.getExits().put(door, currentRoom);
                     PlanService.instance.generateExitsRand(nextRoom);
-                    currentRoom.getExits().put(directionOptional.get(), nextRoom);
+                } else {
+                    nextRoom = entry.get().getValue();
                 }
                 Plan.instance.setCurrent(nextRoom);
             }

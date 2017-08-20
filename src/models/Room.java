@@ -9,20 +9,15 @@ import java.util.Map;
  * Created by draluy on 16/08/2017.
  */
 public class Room {
-    private Map<Direction, Room> exits = new HashMap<>();
+    private Map<Door, Room> exits = new HashMap<>();
 
-    public String doorDescription, roomDescription;
+    public String roomDescription;
 
     public Room (){
         roomDescription = TraceryService.instance.parse("room_description");
-        doorDescription = TraceryService.instance.parse("porte_description");
     }
 
-    public Map<Direction, Room> getExits() {
+    public Map<Door, Room> getExits() {
         return exits;
-    }
-
-    public void addExit(Direction dir) {
-        exits.put(dir, null);
     }
 }
