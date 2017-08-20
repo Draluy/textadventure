@@ -33,8 +33,8 @@ class ModifierServiceTest {
         Assertions.assertEquals(ModifierService.instance.process("accueillant", "s"), "accueillants");
         Assertions.assertEquals(ModifierService.instance.process("alourdi", "s"), "alourdis");
         Assertions.assertEquals(ModifierService.instance.process("mystérieux", "s"), "mystérieux");
-        Assertions.assertEquals(ModifierService.instance.process("déterminé", "f"), "déterminée");
-        Assertions.assertEquals(ModifierService.instance.process("jovial", "f"), "joviale");
-        Assertions.assertEquals(ModifierService.instance.process("gai", "f"), "gaie");
+        Assertions.assertEquals(ModifierService.instance.process("déterminé", "s"), "déterminés");
+        Assertions.assertEquals(ModifierService.instance.process("jovial", "s"), "joviaux");
+        Assertions.assertEquals(ModifierService.instance.process("gai", "s"), "gais");
     }
 }

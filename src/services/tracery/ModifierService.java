@@ -13,11 +13,14 @@ public class ModifierService {
         String result = token;
         switch (modifier) {
             case "f":
-                result = feminize(result); break;
+                result = feminize(result);
+                break;
             case "s":
-                result = pluralize(result);break;
+                result = pluralize(result);
+                break;
             case "c":
-                result = capitalize(result);break;
+                result = capitalize(result);
+                break;
         }
 
         return result;
@@ -42,7 +45,12 @@ public class ModifierService {
     private String pluralize(final String token) {
         String res = token;
 
-        if (!token.endsWith("s")) {
+
+        if (token.endsWith("al")) {
+            res = token.replace("al", "aux");;
+        } else if (token.endsWith("eux")) {
+            res = token;
+        } else if (!token.endsWith("s")) {
             res += "s";
         }
 
