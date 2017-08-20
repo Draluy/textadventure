@@ -14,9 +14,9 @@ public class TraceryDict {
     final static Map<String, Set<String>> symbols = new HashMap<>();
 
     static {
-        symbols.put("porte_description", new HashSet<>(Arrays.asList("Devant vous se dresse #syn_porte# #adj_porte#, #filler_porte#.")));
+        symbols.put("porte_description", new HashSet<>(Arrays.asList("Devant vous se dresse #syn_porte#, #filler_porte#.")));
         symbols.put("adj_porte", new HashSet<>(Arrays.asList("grande", "inquiétante", "solide", "noire", "en planches épaisses et jointives", "à l'aspect patiné")));
-        symbols.put("syn_porte", new HashSet<>(Arrays.asList("une porte", "une barrière", "un battant", "un portail")));
+        symbols.put("syn_porte", new HashSet<>(Arrays.asList("une porte #adj_porte.f#", "une barrière #adj_porte.f#", "un battant #adj_porte#", "un portail #adj_porte#")));
         symbols.put("filler_porte", new HashSet<>(Arrays.asList("avec un détail étrange: il n'y a pas de serrure", "la possibilité d'un piège vous empêche de l'ouvrir immédiatement", " comme vous en avez vu des dizaines", "sans autre détail frappant")));
 
         symbols.put("room_description", new HashSet<>(Arrays.asList("La pièce qui vous entoure #desc_piece#. #partie_piece.c# #adj_mur# sont recouvertes de tapisseries élimées.",
