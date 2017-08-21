@@ -31,12 +31,12 @@ public class ScreenService {
     }
 
     private String getDirectionsLabel(final Room room) {
-        String result="";
+        StringBuilder result=new StringBuilder();
 
         for (Door door : room.getExits().keySet()) {
             Direction direction = door.getDirection();
-            result+= direction.equals(Direction.NORTH) || direction.equals(Direction.SOUTH) ?
-                    "\nAu "+ direction.getValue() : "\nA l'"+ direction.getValue();
+            result.append(direction.equals(Direction.NORTH) || direction.equals(Direction.SOUTH) ?
+                    "\nAu "+ direction.getValue() : "\nA l'"+ direction.getValue());
 
             final Optional<Door> doorAtDirection = room.getExits().keySet()
                     .stream()
@@ -44,13 +44,13 @@ public class ScreenService {
                     .findAny();
 
             if (doorAtDirection.isPresent()){
-                result+= ", "+doorAtDirection.get().getDescription();
+                result.append(", "+doorAtDirection.get().getDescription());
             }else {
-                result+= ".";
+                result.append(".");
             }
         }
 
-        return result;
+        return result.toString();
     }
 
     public void display(String s) {

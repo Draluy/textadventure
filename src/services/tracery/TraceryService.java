@@ -1,6 +1,13 @@
 package services.tracery;
 
-import java.util.*;
+import exceptions.TextAdventureException;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +25,7 @@ public class TraceryService {
 
     public String parse(String startingSymbol) {
         if (!symbols.containsKey(startingSymbol)) {
-            throw new RuntimeException("Error, could not find key for " + startingSymbol);
+            throw new TextAdventureException("Error, could not find key for " + startingSymbol);
         }
 
         final String text = getRandomValue(startingSymbol);
@@ -61,7 +68,7 @@ public class TraceryService {
     private String getRandomValue(String key, String modifier) {
 
         if (modifier == null) {
-            throw new RuntimeException("Modifier is null for key " + key);
+            throw new TextAdventureException("Modifier is null for key " + key);
         }
 
         String result = getRandomValue(key);
@@ -71,7 +78,7 @@ public class TraceryService {
 
     private static <E> E getRandom(Collection<E> e) {
         return e.stream()
-                .skip((int) (e.size() * Math.random()))
+                .skip(new Random().nextInt(e.size()))
                 .findFirst()
                 .get();
     }

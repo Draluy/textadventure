@@ -11,7 +11,9 @@ import java.util.Set;
  */
 public class TraceryDict {
 
-    final static Map<String, Set<String>> symbols = new HashMap<>();
+    static final Map<String, Set<String>> symbols = new HashMap<>();
+
+    private TraceryDict (){}
 
     static {
         symbols.put("porte_description", new HashSet<>(Arrays.asList("se dresse #syn_porte#, #filler_porte#.")));

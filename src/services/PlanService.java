@@ -3,7 +3,6 @@ package services;
 import models.Direction;
 import models.Door;
 import models.Room;
-import services.tracery.TraceryService;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -12,11 +11,11 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class PlanService {
 
+    public static final PlanService instance = new PlanService();
+
+
     private PlanService() {
     }
-
-
-    public static final PlanService instance = new PlanService();
 
     private boolean shouldBeARoom() {
         int randomNum = ThreadLocalRandom.current().nextInt(0, 2);

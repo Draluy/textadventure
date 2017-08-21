@@ -21,7 +21,7 @@ public class Main {
             //User input
             final String userInput = InputService.instance.getUserInput();
 
-            if (userInput.equalsIgnoreCase("exit")) {
+            if ("exit".equalsIgnoreCase(userInput)) {
                 return;
             }
 
