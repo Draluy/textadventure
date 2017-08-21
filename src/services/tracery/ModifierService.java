@@ -1,5 +1,7 @@
 package services.tracery;
 
+import java.util.Arrays;
+
 /**
  * Created by draluy on 17/08/2017.
  */
@@ -9,18 +11,24 @@ public class ModifierService {
     private ModifierService() {
     }
 
-    public String process(String token, String modifier) {
+    public String process(String token, String[] modifiers) {
         String result = token;
-        switch (modifier) {
-            case "f":
-                result = feminize(result);
-                break;
-            case "s":
-                result = pluralize(result);
-                break;
-            case "c":
-                result = capitalize(result);
-                break;
+
+        //Hack to process plurals after feminisation and capitalisation
+        Arrays.sort(modifiers);
+
+        for (String modifier : modifiers) {
+            switch (modifier) {
+                case "f":
+                    result = feminize(result);
+                    break;
+                case "s":
+                    result = pluralize(result);
+                    break;
+                case "c":
+                    result = capitalize(result);
+                    break;
+            }
         }
 
         return result;
@@ -47,7 +55,8 @@ public class ModifierService {
 
 
         if (token.endsWith("al")) {
-            res = token.replace("al", "aux");;
+            res = token.replace("al", "aux");
+            ;
         } else if (token.endsWith("eux")) {
             res = token;
         } else if (!token.endsWith("s")) {

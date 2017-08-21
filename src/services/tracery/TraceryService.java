@@ -2,6 +2,7 @@ package services.tracery;
 
 import exceptions.TextAdventureException;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,13 +46,14 @@ public class TraceryService {
             final String token = matcher.group(1);
             final String[] tokens = token.contains(".") ? token.split("\\.") : new String[]{token};
             final String symbolToReplace = tokens[0];
-            final String symbolToReplaceWithHashes = "#" + symbolToReplace + (tokens.length > 1? "."+tokens[1]:"") + "#";
+            final String[] modifiers = Arrays.copyOfRange(tokens, 1, tokens.length );
+            final String symbolToReplaceWithHashes = "#" + symbolToReplace + (modifiers.length > 0 ? "." + String.join(".", modifiers) : "") + "#";
 
             final Set<String> replacements = new HashSet<>();
-            while (sentence.contains(symbolToReplaceWithHashes)){
-                String replacement = parseSymbol(tokens.length > 1 ? getRandomValue(symbolToReplace, tokens[1]) : getRandomValue(symbolToReplace));
-                while (replacements.contains(replacement)){
-                    replacement = parseSymbol(tokens.length > 1 ? getRandomValue(symbolToReplace, tokens[1]) : getRandomValue(symbolToReplace));
+            while (sentence.contains(symbolToReplaceWithHashes)) {
+                String replacement = parseSymbol(modifiers.length > 0 ? getRandomValue(symbolToReplace, tokens) : getRandomValue(symbolToReplace));
+                while (replacements.contains(replacement)) {
+                    replacement = parseSymbol(modifiers.length > 0 ? getRandomValue(symbolToReplace, tokens) : getRandomValue(symbolToReplace));
                 }
                 sentence = sentence.replaceFirst(symbolToReplaceWithHashes, replacement);
                 replacements.add(replacement);
@@ -65,14 +67,14 @@ public class TraceryService {
         return getRandom(symbols.get(key));
     }
 
-    private String getRandomValue(String key, String modifier) {
+    private String getRandomValue(String key, String[] modifiers) {
 
-        if (modifier == null) {
+        if (modifiers == null) {
             throw new TextAdventureException("Modifier is null for key " + key);
         }
 
         String result = getRandomValue(key);
-        result = ModifierService.instance.process(result, modifier);
+        result = ModifierService.instance.process(result, modifiers);
         return result;
     }
 
