@@ -15,8 +15,8 @@ public class Main {
 
         ScreenService.instance.display(p, Plan.instance.getCurrentRoom());
 
-        Optional<Direction> directionOptional = Optional.empty();
-        while (!directionOptional.isPresent()) {
+        Optional<Map.Entry<Door, Room>> entry = Optional.empty();
+        while (!entry.isPresent()) {
 
             //User input
             final String userInput = InputService.instance.getUserInput();
@@ -25,45 +25,39 @@ public class Main {
                 return;
             }
 
-            directionOptional = Plan.instance.getCurrentRoom().getExits().keySet()
+            final Room currentRoom = Plan.instance.getCurrentRoom();
+
+            entry = currentRoom.getExits().entrySet()
                     .stream()
-                    .filter(room -> room.getDirection().getValue().equalsIgnoreCase(userInput))
-                    .map(room -> room.getDirection())
-                    .findFirst();
+                    .filter(doorRoomEntry -> doorRoomEntry.getKey().getDirection().getValue().equalsIgnoreCase(userInput))
+                    .findAny();
 
             //update model
-            if (directionOptional.isPresent()) {
-                final Room currentRoom = Plan.instance.getCurrentRoom();
+            if (entry.isPresent()) {
+                final Direction dir = entry.get().getKey().getDirection();
 
-                final Direction dir = directionOptional.get();
-                Optional<Map.Entry<Door, Room>> entry = currentRoom.getExits().entrySet()
-                        .stream()
-                        .filter(doorRoomEntry -> doorRoomEntry.getKey().getDirection().equals(dir))
-                        .findAny();
-
-                Room nextRoom;
                 if (entry.get().getValue() == null) {
-                    nextRoom = new Room();
+                    final Room nextRoom = new Room();
                     final Door thisDoor = entry.get().getKey();
-                    final Door door = new Door(Direction.getOpposite(directionOptional.get()), thisDoor.getDescription());
+                    final Door door = new Door(Direction.getOpposite(dir), thisDoor.getDescription());
                     currentRoom.getExits().put(thisDoor, nextRoom);
                     nextRoom.getExits().put(door, currentRoom);
                     PlanService.instance.generateExitsRand(nextRoom);
+                    Plan.instance.setCurrent(nextRoom);
                 } else {
-                    nextRoom = entry.get().getValue();
+                    Plan.instance.setCurrent(entry.get().getValue());
                 }
-                Plan.instance.setCurrent(nextRoom);
             }
 
             //display screen
-            if (!directionOptional.isPresent()) {
+            if (!entry.isPresent()) {
                 ScreenService.instance.display("Choix invalide!");
             } else {
                 ScreenService.instance.display(p, Plan.instance.getCurrentRoom());
             }
 
             //reset user input
-            directionOptional = Optional.empty();
+            entry = Optional.empty();
         }
     }
 }
