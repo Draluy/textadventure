@@ -35,7 +35,8 @@ public class ScreenService {
 
         for (Door door : room.getExits().keySet()) {
             Direction direction = door.getDirection();
-            result+= "\nAu "+ direction.getValue();
+            result+= direction.equals(Direction.NORTH) || direction.equals(Direction.SOUTH) ?
+                    "\nAu "+ direction.getValue() : "\nA l'"+ direction.getValue();
 
             final Optional<Door> doorAtDirection = room.getExits().keySet()
                     .stream()
