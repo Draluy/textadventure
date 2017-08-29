@@ -21,6 +21,7 @@ class ModifierServiceTest {
         Assertions.assertEquals(ModifierService.instance.process("déterminé", new String[]{"f"}), "déterminée");
         Assertions.assertEquals(ModifierService.instance.process("jovial", new String[]{"f"}), "joviale");
         Assertions.assertEquals(ModifierService.instance.process("gai", new String[]{"f"}), "gaie");
+        Assertions.assertEquals(ModifierService.instance.process("beau", new String[]{"f"}), "belle");
     }
 
     @Test

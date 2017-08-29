@@ -37,7 +37,9 @@ public class ModifierService {
     private String feminize(final String token) {
         String res = token;
 
-        if (token.endsWith("el")) {
+        if (token.endsWith("eau")) {
+            res = token.replace("eau", "elle");
+        } else if (token.endsWith("el")) {
             res = token.replace("el", "elle");
         } else if (token.endsWith("eux")) {
             res = token.replace("eux", "euse");
