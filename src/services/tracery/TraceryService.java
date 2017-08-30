@@ -53,7 +53,12 @@ public class TraceryService {
             final String varName = matchervariables.group(1);
             final String symbolName = matchervariables.group(2);
 
-            predefinedSymbols.put(varName, getRandomValue(symbolName));
+            final String[] tokens = symbolName.contains(".") ? symbolName.split("\\.") : new String[]{symbolName};
+            final String symbolToReplace = tokens[0];
+            final String[] modifiers = Arrays.copyOfRange(tokens, 1, tokens.length);
+
+            String replacement = parseSymbol(modifiers.length > 0 ? getRandomValue(symbolToReplace, modifiers) : getRandomValue(symbolToReplace), predefinedSymbols);
+            predefinedSymbols.put(varName, replacement);
             sentence = sentence.replace(matchervariables.group(0), "");
         }
 
@@ -73,9 +78,9 @@ public class TraceryService {
                 if (predefinedSymbols.containsKey(symbolToReplace)) {
                     replacement = predefinedSymbols.get(symbolToReplace);
                 } else {
-                    replacement = parseSymbol(modifiers.length > 0 ? getRandomValue(symbolToReplace, tokens) : getRandomValue(symbolToReplace), predefinedSymbols);
+                    replacement = parseSymbol(modifiers.length > 0 ? getRandomValue(symbolToReplace, modifiers) : getRandomValue(symbolToReplace), predefinedSymbols);
                     while (replacements.contains(replacement)) {
-                        replacement = parseSymbol(modifiers.length > 0 ? getRandomValue(symbolToReplace, tokens) : getRandomValue(symbolToReplace), predefinedSymbols);
+                        replacement = parseSymbol(modifiers.length > 0 ? getRandomValue(symbolToReplace, modifiers) : getRandomValue(symbolToReplace), predefinedSymbols);
                     }
                 }
                 sentence = sentence.replaceFirst(symbolToReplaceWithHashes, replacement);
@@ -101,7 +106,7 @@ public class TraceryService {
         return result;
     }
 
-    private static <E> E getRandom(Collection<E> e) {
+    private <E> E getRandom(Collection<E> e) {
         return e.stream()
                 .skip(new Random().nextInt(e.size()))
                 .findFirst()

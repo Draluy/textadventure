@@ -30,5 +30,6 @@ public class TraceryDict {
         symbols.put("partie_piece", new HashSet<>(Arrays.asList("les murs", "les coins")));
         symbols.put("adj_mur", new HashSet<>(Arrays.asList("nu", "suintant", "en pierre grossièrement taillées")));
         symbols.put("coul_plante", new HashSet<>(Arrays.asList("noir", "vert")));
+        symbols.put("nom_monstre", new HashSet<>(Arrays.asList("une ghoule", "un orc", "un golem", "un troll", "un vampire")));
     }
 }

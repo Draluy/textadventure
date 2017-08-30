@@ -18,7 +18,7 @@ class TraceryServiceTest {
         TraceryService.instance.getSymbols().put("sentence1", new HashSet<>(Arrays.asList("Le joueur entre dans le dongeon.")));
         TraceryService.instance.getSymbols().put("sentence2", new HashSet<>(Arrays.asList("Le joueur #couleur# entre dans le dongeon.")));
         TraceryService.instance.getSymbols().put("couleur", new HashSet<>(Arrays.asList(("bleu rouge vert jaune").split(" "))));
-        TraceryService.instance.getSymbols().put("sentence3", new HashSet<>(Arrays.asList("Le joueur #couleur# entre dans #piece#.")));
+        TraceryService.instance.getSymbols().put("sentence3", new HashSet<>(Arrays.asList("Le joueur #couleur# entre dans #piece# #couleur.f#.")));
         TraceryService.instance.getSymbols().put("piece", new HashSet<>(Arrays.asList("la #taille.f# chambre", "le #taille# couloir", "le #taille# tombeau")));
         TraceryService.instance.getSymbols().put("taille", new HashSet<>(Arrays.asList("grand", "petit", "immense")));
         TraceryService.instance.getSymbols().put("taille2", new HashSet<>(Arrays.asList("grand")));
@@ -27,6 +27,8 @@ class TraceryServiceTest {
         TraceryService.instance.getSymbols().put("sentence5", new HashSet<>(Arrays.asList("On dit un #taille# mur, le #taille# bateau, un #taille# truc.")));
         TraceryService.instance.getSymbols().put("sentence7", new HashSet<>(Arrays.asList("On dit une #taille.f# murette, et une #taille.f# gondole, et une #taille.f# chose.")));
         TraceryService.instance.getSymbols().put("sentence6", new HashSet<>(Arrays.asList("Debut de l'histoire. #[taille:taille3]sentence5#. Fin de l'histoire.")));
+        TraceryService.instance.getSymbols().put("sentence6", new HashSet<>(Arrays.asList("Debut de la #taille2.f# histoire. #[taille:taille3]sentence5#. Fin de la #taille3.f# histoire.")));
+        TraceryService.instance.getSymbols().put("sentence8", new HashSet<>(Arrays.asList("Debut de la #taille2.f# histoire. #[taille:taille3.f]sentence7#. Fin de la #taille3.f# histoire.")));
     }
 
     @org.junit.jupiter.api.Test
@@ -59,9 +61,20 @@ class TraceryServiceTest {
     void parseGlobalVariables() {
         final String res = TraceryService.instance.parse("sentence6");
         final String[] words = res.split(" ");
-        final int frequences = Collections.frequency(Arrays.asList(words), TraceryService.instance.getSymbols().get("taille3"));
 
         final Optional<String> taille3 = TraceryService.instance.getSymbols().get("taille3").stream()
+                .filter(s -> Collections.frequency(Arrays.asList(words), s) >= 3)
+                .findAny();
+        Assertions.assertTrue(taille3.isPresent());
+    }
+
+    @org.junit.jupiter.api.Test
+    void parseGlobalVariablesFeminine() {
+        final String res = TraceryService.instance.parse("sentence8");
+        final String[] words = res.split(" ");
+
+        final Optional<String> taille3 = TraceryService.instance.getSymbols().get("taille3").stream()
+                .map(s -> ModifierService.instance.process(s, new String[]{"f"}))
                 .filter(s -> Collections.frequency(Arrays.asList(words), s) >= 3)
                 .findAny();
         Assertions.assertTrue(taille3.isPresent());

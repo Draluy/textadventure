@@ -16,6 +16,11 @@ public class Plan {
     public void initPlan() {
         current = new Room();
         PlanService.instance.generateExitsRand(current);
+
+        //Make sure at least on exit exists.
+        while (current.getExits().isEmpty()) {
+            PlanService.instance.generateExitsRand(current);
+        }
     }
 
     public Room getCurrentRoom() {

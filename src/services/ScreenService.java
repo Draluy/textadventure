@@ -23,29 +23,30 @@ public class ScreenService {
 
         final int size = room.getExits().size();
         String sortiesLabel = getDirectionsLabel(room);
-        out.println(size > 0 ? room.roomDescription+
-                "Vous apercevez " + size + " sorties. " + sortiesLabel
-                : "Cette pièce n'a pas d'issues.");
-
+        out.println(room.getRoomDescription());
+        if (room.getMonster() != null) {
+            out.println("Au centre de la pièce se tient " + room.getMonster().getName() + ".");
+        }
+        out.println("Vous apercevez " + size + " sorties. " + sortiesLabel);
         out.println("Quel est votre choix ?");
     }
 
     private String getDirectionsLabel(final Room room) {
-        StringBuilder result=new StringBuilder();
+        StringBuilder result = new StringBuilder();
 
         for (Door door : room.getExits().keySet()) {
             Direction direction = door.getDirection();
             result.append(direction.equals(Direction.NORTH) || direction.equals(Direction.SOUTH) ?
-                    "\nAu "+ direction.getValue() : "\nA l'"+ direction.getValue());
+                    "\nAu " + direction.getValue() : "\nA l'" + direction.getValue());
 
             final Optional<Door> doorAtDirection = room.getExits().keySet()
                     .stream()
                     .filter(door1 -> door1.getDirection().equals(direction))
                     .findAny();
 
-            if (doorAtDirection.isPresent()){
-                result.append(", "+doorAtDirection.get().getDescription());
-            }else {
+            if (doorAtDirection.isPresent()) {
+                result.append(", " + doorAtDirection.get().getDescription());
+            } else {
                 result.append(".");
             }
         }
