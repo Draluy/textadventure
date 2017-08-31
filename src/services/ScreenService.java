@@ -28,6 +28,9 @@ public class ScreenService {
             out.println("Au centre de la pièce se tient " + room.getMonster().getName() + ".");
         }
         out.println("Vous apercevez " + size + " sorties. " + sortiesLabel);
+        if (room.getMonster() != null) {
+            out.println("Vous pouvez également COMBATTRE " + room.getMonster().getName()+".");
+        }
         out.println("Quel est votre choix ?");
     }
 
@@ -37,7 +40,7 @@ public class ScreenService {
         for (Door door : room.getExits().keySet()) {
             Direction direction = door.getDirection();
             result.append(direction.equals(Direction.NORTH) || direction.equals(Direction.SOUTH) ?
-                    "\nAu " + direction.getValue() : "\nA l'" + direction.getValue());
+                    "\nAu " + direction.getValue().toUpperCase() : "\nA l'" + direction.getValue().toUpperCase());
 
             final Optional<Door> doorAtDirection = room.getExits().keySet()
                     .stream()
