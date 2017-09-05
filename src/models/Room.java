@@ -37,4 +37,8 @@ public class Room {
     public Monster getMonster() {
         return monster;
     }
+
+    public void killMonster() {
+        monster = null;
+    }
 }

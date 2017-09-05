@@ -1,5 +1,8 @@
 package models;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 /**
  * Created by draluy on 16/08/2017.
  */
@@ -14,6 +17,11 @@ public enum Direction {
 
     public String getValue() {
         return value;
+    }
+
+    public static Optional<Direction> fromValue(String value){
+        return Arrays.stream(Direction.values()).filter(dir -> dir.getValue().equalsIgnoreCase(value))
+                .findAny();
     }
 
     public static Direction getOpposite(Direction direction) {

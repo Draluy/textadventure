@@ -20,13 +20,18 @@ public class ScreenService {
 
     public void display(Player player, Room room) {
         PrintStream out = System.out;
-
-        final int size = room.getExits().size();
-        String sortiesLabel = getDirectionsLabel(room);
         out.println(room.getRoomDescription());
         if (room.getMonster() != null) {
             out.println("Au centre de la pièce se tient " + room.getMonster().getName() + ".");
         }
+        displayDirections(player, room);
+    }
+
+    public void displayDirections(Player player, Room room) {
+        PrintStream out = System.out;
+
+        final int size = room.getExits().size();
+        String sortiesLabel = getDirectionsLabel(room);
         out.println("Vous apercevez " + size + " sorties. " + sortiesLabel);
         if (room.getMonster() != null) {
             out.println("Vous pouvez également COMBATTRE " + room.getMonster().getName()+".");
