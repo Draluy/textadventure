@@ -21,7 +21,7 @@ public class ScreenService {
     public void display(Player player, Room room) {
         PrintStream out = System.out;
         out.println("---------------------------------");
-        out.println("|"+player.getName()+": "+player.getPoints()+"PV"+String.format("%1$" + (26 - player.getName().length()) + "s", "|"));
+        out.println("|" + player.getName() + ": " + player.getPoints() + "PV" + String.format("%1$" + (26 - player.getName().length()) + "s", "|"));
         out.println("---------------------------------");
         out.println(room.getRoomDescription());
         if (room.getMonster() != null) {
@@ -37,7 +37,7 @@ public class ScreenService {
         String sortiesLabel = getDirectionsLabel(room);
         out.println("Vous apercevez " + size + " sorties. " + sortiesLabel);
         if (room.getMonster() != null) {
-            out.println("Vous pouvez également COMBATTRE " + room.getMonster().getName()+".");
+            out.println("Vous pouvez également COMBATTRE " + room.getMonster().getName() + ".");
         }
         out.println("Quel est votre choix ?");
     }
