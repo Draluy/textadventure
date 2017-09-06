@@ -54,4 +54,15 @@ class ModifierServiceTest {
         Assertions.assertEquals(ModifierService.instance.process("jovial", new String[]{"s", "f"}), "joviales");
         Assertions.assertEquals(ModifierService.instance.process("gai", new String[]{"s", "f"}), "gaies");
     }
+
+    @Test
+    void processYouPlural() {
+        Assertions.assertEquals(ModifierService.instance.process("entrer", new String[]{"z"}), "entrez");
+        Assertions.assertEquals(ModifierService.instance.process("finir", new String[]{"z"}), "finissez");
+        Assertions.assertEquals(ModifierService.instance.process("trouver", new String[]{"z"}), "trouvez");
+        Assertions.assertEquals(ModifierService.instance.process("prendre", new String[]{"z"}), "prenez");
+        Assertions.assertEquals(ModifierService.instance.process("avoir", new String[]{"z"}), "avez");
+        Assertions.assertEquals(ModifierService.instance.process("acheter", new String[]{"z"}), "achetez");
+        Assertions.assertEquals(ModifierService.instance.process("accomplir", new String[]{"z"}), "accomplissez");
+    }
 }

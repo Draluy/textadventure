@@ -28,10 +28,29 @@ public class ModifierService {
                 case "c":
                     result = capitalize(result);
                     break;
+                case "z":
+                    result = youpluralize(result);
+                    break;
             }
         }
 
         return result;
+    }
+
+    private String youpluralize(String token) {
+        String res = token;
+
+        if (token.endsWith("er")) {
+            res = token.replace("er", "ez");
+        } else if (token.contains("oir")) {
+            res = token.replace("oir", "ez");
+        } else if (token.contains("dre")) {
+            res = token.replace("dre", "ez");
+        } else if (token.contains("ir")) {
+            res = token.replace("ir", "issez");
+        }
+
+        return res;
     }
 
     private String feminize(final String token) {
