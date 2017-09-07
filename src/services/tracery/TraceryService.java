@@ -76,7 +76,7 @@ public class TraceryService {
             while (sentence.contains(symbolToReplaceWithHashes)) {
                 String replacement;
                 if (predefinedSymbols.containsKey(symbolToReplace)) {
-                    replacement = predefinedSymbols.get(symbolToReplace);
+                    replacement = ModifierService.instance.process(predefinedSymbols.get(symbolToReplace), modifiers);
                 } else {
                     replacement = parseSymbol(modifiers.length > 0 ? getRandomValue(symbolToReplace, modifiers) : getRandomValue(symbolToReplace), predefinedSymbols);
                     while (replacements.contains(replacement)) {
