@@ -1,5 +1,6 @@
 package services;
 
+import models.Animal;
 import models.Direction;
 import models.Door;
 import models.Player;
@@ -20,14 +21,25 @@ public class ScreenService {
 
     public void display(Player player, Room room) {
         PrintStream out = System.out;
-        out.println("---------------------------------");
-        out.println("|" + player.getName() + ": " + player.getPoints() + "PV" + String.format("%1$" + (26 - player.getName().length()) + "s", "|"));
-        out.println("---------------------------------");
+        final boolean roomHasMonster = room.getMonster() != null;
+        displayAnimal(player);
+
+        if (roomHasMonster) {
+            displayAnimal(room.getMonster());
+        }
+
         out.println(room.getRoomDescription());
-        if (room.getMonster() != null) {
+        if (roomHasMonster) {
             out.println("Au centre de la pièce se tient " + room.getMonster().getName() + ".");
         }
         displayDirections(player, room);
+    }
+
+    private void displayAnimal(Animal animal) {
+        PrintStream out = System.out;
+        out.println("---------------------------------");
+        out.println("|" + animal.getName() + ": " + animal.getNbLifePoints() + "PV" + String.format("%1$" + (26 - animal.getName().length()) + "s", "|"));
+        out.println("---------------------------------");
     }
 
     public void displayDirections(Player player, Room room) {
