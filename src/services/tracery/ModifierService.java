@@ -31,23 +31,49 @@ public class ModifierService {
                 case "z":
                     result = youpluralize(result);
                     break;
+                case "ad":
+                    result = demonstrativearticlize(result);
+                    break;
             }
         }
 
         return result;
     }
 
+    private String demonstrativearticlize(String token) {
+        String res = token;
+
+        if (res.contains("un ")) {
+            res = res.replace("un ", "le ");
+        }
+
+        if (res.contains("une ")) {
+            res = res.replace("une ", "la ");
+        }
+
+        return res;
+    }
+
     private String youpluralize(String token) {
         String res = token;
 
-        if (token.endsWith("er")) {
-            res = token.replace("er", "ez");
-        } else if (token.contains("oir")) {
-            res = token.replace("oir", "ez");
-        } else if (token.contains("dre")) {
-            res = token.replace("dre", "ez");
-        } else if (token.contains("ir")) {
-            res = token.replace("ir", "issez");
+        if (res.contains("s'")) {
+            res = token.replace("s'", "vous ");
+        }
+        if (res.startsWith("se ")) {
+            res = token.replace("se ", "vous ");
+        }
+
+        if (res.endsWith("er")) {
+            res = res.replace("er", "ez");
+        } else if (res.contains("voir")) {
+            res = res.replace("voir", "voyez");
+        } else if (res.contains("oir")) {
+            res = res.replace("oir", "ez");
+        } else if (res.contains("dre")) {
+            res = res.replace("dre", "ez");
+        } else if (res.contains("ir")) {
+            res = res.replace("ir", "issez");
         }
 
         return res;
@@ -77,7 +103,6 @@ public class ModifierService {
 
         if (token.endsWith("al")) {
             res = token.replace("al", "aux");
-            ;
         } else if (token.endsWith("eux")) {
             res = token;
         } else if (!token.endsWith("s")) {
