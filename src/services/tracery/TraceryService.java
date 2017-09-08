@@ -24,18 +24,16 @@ public class TraceryService {
         symbols.putAll(TraceryDict.symbols);
     }
 
-    public String parse(String startingSymbol) {
+    public TraceryResult parse(String startingSymbol) {
         if (!symbols.containsKey(startingSymbol)) {
             throw new TextAdventureException("Error, could not find key for " + startingSymbol);
         }
 
-        final String text = getRandomValue(startingSymbol);
+        final TraceryResult result = new TraceryResult();
+        String startingText = getRandomValue(startingSymbol);
+        result.setParsedText(parseSymbol(startingText, result.getConstTokens()));
 
-        if (text.contains("#")) {
-            return parseSymbol(text, null);
-        } else {
-            return text;
-        }
+        return result;
     }
 
     private String parseSymbol(final String sentenceInput, final Map<String, String> symbols) {
@@ -59,6 +57,7 @@ public class TraceryService {
 
             String replacement = parseSymbol(modifiers.length > 0 ? getRandomValue(symbolToReplace, modifiers) : getRandomValue(symbolToReplace), predefinedSymbols);
             predefinedSymbols.put(varName, replacement);
+            symbols.put(varName, replacement);
             sentence = sentence.replace(matchervariables.group(0), "");
         }
 

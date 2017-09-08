@@ -1,12 +1,14 @@
 package models;
 
+import services.tracery.TraceryResult;
+
 /**
  * Created by draluy on 16/08/2017.
  */
 public class Player implements Animal{
     private int points = 20;
 
-    private String name = "Player";
+    private TraceryResult description = new TraceryResult();
 
     @Override
     public int getNbLifePoints() {
@@ -19,12 +21,12 @@ public class Player implements Animal{
     }
 
     @Override
-    public String getName() {
-        return name;
+    public TraceryResult getDescription() {
+        return description;
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
+    public void setDescription(String description) {
+        this.description.setParsedText(description);
     }
 }

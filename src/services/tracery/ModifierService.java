@@ -66,8 +66,8 @@ public class ModifierService {
 
         if (res.endsWith("er")) {
             res = res.replace("er", "ez");
-        } else if (res.contains("voir")) {
-            res = res.replace("voir", "voyez");
+        } else if (res.equalsIgnoreCase("voir")) {
+            res = "voyez";
         } else if (res.contains("oir")) {
             res = res.replace("oir", "ez");
         } else if (res.contains("dre")) {

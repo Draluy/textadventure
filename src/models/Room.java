@@ -1,5 +1,6 @@
 package models;
 
+import services.tracery.TraceryResult;
 import services.tracery.TraceryService;
 
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.Random;
 public class Room {
     private final Map<Door, Room> exits = new HashMap<>();
 
-    private String roomDescription;
+    private TraceryResult roomDescription;
     private Monster monster = null;
 
     private final static int MAX_DANGER = 10;
@@ -21,8 +22,8 @@ public class Room {
         roomDescription = TraceryService.instance.parse("room_description");
         int dangerosity = new Random().nextInt(MAX_DANGER + 1);
 
-        if (dangerosity > 8){
-            monster = new Monster(TraceryService.instance.parse("nom_monstre"));
+        if (dangerosity > 5) {
+            monster = new Monster(TraceryService.instance.parse("monster_description"));
         }
     }
 
@@ -30,7 +31,7 @@ public class Room {
         return exits;
     }
 
-    public String getRoomDescription() {
+    public TraceryResult getRoomDescription() {
         return roomDescription;
     }
 

@@ -1,24 +1,25 @@
 package models;
 
+import services.tracery.TraceryResult;
+
 /**
  * Created by draluy on 30/08/2017.
  */
 public class Monster implements Animal {
-    private String name;
+    private TraceryResult description;
     private int nbLifePoints = 20;
 
-    public Monster(final String name) {
-        this.name = name;
+    public Monster(final TraceryResult name) {
+        this.description = name;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public TraceryResult getDescription() {
+        return description;
     }
 
-    @Override
-    public void setName(String name) {
-        this.name = name;
+    public void setDescription(String description) {
+        this.description.setParsedText(description);
     }
 
     @Override

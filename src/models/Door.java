@@ -11,7 +11,7 @@ public class Door {
 
     public Door(Direction direction) {
         this.direction = direction;
-        this.description = TraceryService.instance.parse("porte_description");
+        this.description = TraceryService.instance.parse("porte_description").getParsedText();
     }
 
     public Door(Direction direction, String description) {

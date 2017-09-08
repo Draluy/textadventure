@@ -17,6 +17,7 @@ public class Main {
 
         Plan.instance.initPlan();
         Player p = new Player();
+        p.setDescription("Player");
 
         ScreenService.instance.display(p, Plan.instance.getCurrentRoom());
 

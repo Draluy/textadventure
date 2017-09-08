@@ -22,24 +22,26 @@ public class ScreenService {
     public void display(Player player, Room room) {
         PrintStream out = System.out;
         final boolean roomHasMonster = room.getMonster() != null;
-        displayAnimal(player);
+        displayAnimal(player, player.getDescription().getParsedText());
 
         if (roomHasMonster) {
-            displayAnimal(room.getMonster());
+            displayAnimal(room.getMonster(), room.getMonster().getDescription().getConstTokens().get("monstre"));
         }
 
-        out.println(room.getRoomDescription());
+        out.println(room.getRoomDescription().getParsedText());
         if (roomHasMonster) {
-            out.println("Au centre de la pièce se tient " + room.getMonster().getName() + ".");
+            out.println("Au centre de la pièce se tient " + room.getMonster().getDescription().getConstTokens().get("monstre") + ".");
         }
         displayDirections(player, room);
     }
 
-    private void displayAnimal(Animal animal) {
+    private void displayAnimal(Animal animal, String name) {
         PrintStream out = System.out;
-        out.println("---------------------------------");
-        out.println("|" + animal.getName() + ": " + animal.getNbLifePoints() + "PV" + String.format("%1$" + (26 - animal.getName().length()) + "s", "|"));
-        out.println("---------------------------------");
+        if (name != null) {
+            out.println("---------------------------------");
+            out.println("|" + name + ": " + animal.getNbLifePoints() + "PV" + String.format("%1$" + (26 - name.length()) + "s", "|"));
+            out.println("---------------------------------");
+        }
     }
 
     public void displayDirections(Player player, Room room) {
@@ -49,7 +51,7 @@ public class ScreenService {
         String sortiesLabel = getDirectionsLabel(room);
         out.println("Vous apercevez " + size + " sorties. " + sortiesLabel);
         if (room.getMonster() != null) {
-            out.println("Vous pouvez également COMBATTRE " + room.getMonster().getName() + ".");
+            out.println("Vous pouvez également COMBATTRE " + room.getMonster().getDescription().getConstTokens().get("monstre") + ".");
         }
         out.println("Quel est votre choix ?");
     }

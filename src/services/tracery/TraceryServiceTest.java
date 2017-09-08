@@ -38,7 +38,7 @@ class TraceryServiceTest {
 
     @org.junit.jupiter.api.Test
     void parse2() {
-        final String res = TraceryService.instance.parse("sentence2");
+        final String res = TraceryService.instance.parse("sentence2").getParsedText();
         Assertions.assertTrue(res.startsWith("Le joueur "));
         Assertions.assertTrue(res.endsWith(" entre dans le dongeon."));
         Assertions.assertTrue(res.length() > 32);
@@ -47,19 +47,19 @@ class TraceryServiceTest {
 
     @org.junit.jupiter.api.Test
     void parse3() {
-        final String res = TraceryService.instance.parse("sentence3");
+        final String res = TraceryService.instance.parse("sentence3").getParsedText();
         Assertions.assertFalse(res.contains("#"));
     }
 
     @org.junit.jupiter.api.Test
     void parse4() {
-        final String res = TraceryService.instance.parse("sentence4");
+        final String res = TraceryService.instance.parse("sentence4").getParsedText();
         Assertions.assertEquals(res, "On dit un grand mur, mais une grande abeille");
     }
 
     @org.junit.jupiter.api.Test
     void parseGlobalVariables() {
-        final String res = TraceryService.instance.parse("sentence6");
+        final String res = TraceryService.instance.parse("sentence6").getParsedText();
         final String[] words = res.split(" ");
 
         final Optional<String> taille3 = TraceryService.instance.getSymbols().get("taille3").stream()
@@ -70,7 +70,7 @@ class TraceryServiceTest {
 
     @org.junit.jupiter.api.Test
     void parseGlobalVariablesFeminine() {
-        final String res = TraceryService.instance.parse("sentence8");
+        final String res = TraceryService.instance.parse("sentence8").getParsedText();
         final String[] words = res.split(" ");
 
         final Optional<String> taille3 = TraceryService.instance.getSymbols().get("taille3").stream()
