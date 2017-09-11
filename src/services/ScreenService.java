@@ -5,8 +5,11 @@ import models.Direction;
 import models.Door;
 import models.Player;
 import models.Room;
+import services.tracery.TraceryResult;
 
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -15,28 +18,53 @@ import java.util.Optional;
 public class ScreenService {
 
     public static final ScreenService instance = new ScreenService();
+    private PrintStream out = System.out;
 
     private ScreenService() {
     }
 
     public void display(Player player, Room room) {
-        PrintStream out = System.out;
         final boolean roomHasMonster = room.getMonster() != null;
-        displayAnimal(player, player.getDescription().getParsedText());
 
+        //Display players
+        displayAnimal(player, player.getDescription().getParsedText());
         if (roomHasMonster) {
             displayAnimal(room.getMonster(), room.getMonster().getDescription().getConstTokens().get("monstre"));
         }
 
+        //Display descriptions
         out.println(room.getRoomDescription().getParsedText());
         if (roomHasMonster) {
             out.println("Au centre de la pièce se tient " + room.getMonster().getDescription().getConstTokens().get("monstre") + ".");
         }
+
+        //Display actions
         displayDirections(player, room);
+        displayActions(room.getRoomDescription(), roomHasMonster ? room.getMonster().getDescription() : null);
+
+        out.println("Quel est votre choix ?");
+    }
+
+    private void displayActions(TraceryResult roomDescription, TraceryResult monsterDescription) {
+        final Map<String, String> tokens = new HashMap<>();
+        tokens.putAll(roomDescription.getConstTokens());
+        if (monsterDescription != null) {
+            tokens.putAll(monsterDescription.getConstTokens());
+        }
+
+        tokens.forEach((key, value) -> {
+            switch (key) {
+                case "meuble":
+                    out.println("Vous pouvez FOUILLER " + roomDescription.getConstTokens().get("meuble") + ".");
+                    break;
+                case "monstre":
+                    out.println("Vous pouvez également COMBATTRE " + monsterDescription.getConstTokens().get("monstre") + ".");
+                    break;
+            }
+        });
     }
 
     private void displayAnimal(Animal animal, String name) {
-        PrintStream out = System.out;
         if (name != null) {
             out.println("---------------------------------");
             out.println("|" + name + ": " + animal.getNbLifePoints() + "PV" + String.format("%1$" + (26 - name.length()) + "s", "|"));
@@ -45,15 +73,9 @@ public class ScreenService {
     }
 
     public void displayDirections(Player player, Room room) {
-        PrintStream out = System.out;
-
         final int size = room.getExits().size();
         String sortiesLabel = getDirectionsLabel(room);
         out.println("Vous apercevez " + size + " sorties. " + sortiesLabel);
-        if (room.getMonster() != null) {
-            out.println("Vous pouvez également COMBATTRE " + room.getMonster().getDescription().getConstTokens().get("monstre") + ".");
-        }
-        out.println("Quel est votre choix ?");
     }
 
     private String getDirectionsLabel(final Room room) {
