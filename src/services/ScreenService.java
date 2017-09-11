@@ -102,6 +102,6 @@ public class ScreenService {
     }
 
     public void display(String s) {
-        System.out.println(s);
+        out.println(s);
     }
 }

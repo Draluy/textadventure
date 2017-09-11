@@ -11,6 +11,8 @@ public enum Action {
     EAST(Direction.EAST.getValue(), true),
     WEST(Direction.WEST.getValue(), true),
     FIGHT("Combattre", false),
+    SEARCH("Fouiller", false),
+    EMPTY("empty", false),
     EXIT("Exit", false);
 
     private String value;

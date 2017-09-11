@@ -61,16 +61,22 @@ public class Main {
                 Plan.instance.getCurrentRoom().killMonster();
             }
 
-
             //display screen
-
-            if (userInput.isPresent() && userInput.get().isDirection()) {
-                ScreenService.instance.display(p, Plan.instance.getCurrentRoom());
-            } else if (userInput.isPresent() && userInput.get().equals(Action.FIGHT)) {
-                ScreenService.instance.display("Vous tuez votre adversaire. ");
-                ScreenService.instance.displayDirections(p, Plan.instance.getCurrentRoom());
-            } else {
-                ScreenService.instance.display("Choix invalide!");
+            final Action action = userInput.orElse(Action.EMPTY);
+            switch (action) {
+                case NORTH:
+                case SOUTH:
+                case EAST:
+                case WEST:
+                    ScreenService.instance.display(p, Plan.instance.getCurrentRoom());
+                    break;
+                case FIGHT:
+                    ScreenService.instance.display("Vous tuez votre adversaire. ");
+                    ScreenService.instance.displayDirections(p, Plan.instance.getCurrentRoom());
+                    break;
+                default:
+                    ScreenService.instance.display("Choix invalide!");
+                    break;
             }
 
             //reset user input
