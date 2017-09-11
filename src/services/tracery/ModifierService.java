@@ -64,7 +64,9 @@ public class ModifierService {
             res = token.replace("se ", "vous ");
         }
 
-        if (res.endsWith("er")) {
+        if (res.endsWith("re")) {
+            res = res.replace("re", "es");
+        }else  if (res.endsWith("er")) {
             res = res.replace("er", "ez");
         } else if (res.equalsIgnoreCase("voir")) {
             res = "voyez";

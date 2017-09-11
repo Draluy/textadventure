@@ -3,13 +3,11 @@ package services;
 import models.Animal;
 import models.Direction;
 import models.Door;
+import models.ObjectType;
 import models.Player;
 import models.Room;
-import services.tracery.TraceryResult;
 
 import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -24,44 +22,45 @@ public class ScreenService {
     }
 
     public void display(Player player, Room room) {
-        final boolean roomHasMonster = room.getMonster() != null;
-
+        final Animal monstre = (Animal) room.getObjects().get(ObjectType.MONSTER);
+        final boolean roomHasMonster = room.getObjects().containsKey(ObjectType.MONSTER) && monstre.getNbLifePoints() > 0;
         //Display players
         displayAnimal(player, player.getDescription().getParsedText());
         if (roomHasMonster) {
-            displayAnimal(room.getMonster(), room.getMonster().getDescription().getConstTokens().get("monstre"));
+            displayAnimal((Animal) room.getObjects().get(ObjectType.MONSTER), room.getObjects().get(ObjectType.MONSTER).getDescription().getConstTokens().get("monstre"));
         }
 
         //Display descriptions
         out.println(room.getRoomDescription().getParsedText());
+
         if (roomHasMonster) {
-            out.println("Au centre de la pièce se tient " + room.getMonster().getDescription().getConstTokens().get("monstre") + ".");
+            out.println("Au centre de la pièce se tient " + monstre.getDescription().getConstTokens().get("monstre") + ".");
         }
 
         //Display actions
         displayDirections(player, room);
-        displayActions(room.getRoomDescription(), roomHasMonster ? room.getMonster().getDescription() : null);
+        displayActions(room);
 
         out.println("Quel est votre choix ?");
     }
 
-    private void displayActions(TraceryResult roomDescription, TraceryResult monsterDescription) {
-        final Map<String, String> tokens = new HashMap<>();
-        tokens.putAll(roomDescription.getConstTokens());
-        if (monsterDescription != null) {
-            tokens.putAll(monsterDescription.getConstTokens());
-        }
-
-        tokens.forEach((key, value) -> {
-            switch (key) {
-                case "meuble":
-                    out.println("Vous pouvez FOUILLER " + roomDescription.getConstTokens().get("meuble") + ".");
-                    break;
-                case "monstre":
-                    out.println("Vous pouvez également COMBATTRE " + monsterDescription.getConstTokens().get("monstre") + ".");
-                    break;
-            }
-        });
+    private void displayActions(final Room room) {
+        room.getObjects().entrySet()
+                .stream()
+                .sorted((o1, o2) -> o1.getKey().compareTo(o1.getKey()))
+                .forEach(entry -> {
+                    switch (entry.getKey()) {
+                        case FURNITURE:
+                            out.println("Vous pouvez FOUILLER " + room.getObjects().get(ObjectType.FURNITURE).getDescription().getParsedText() + ".");
+                            break;
+                        case MONSTER:
+                            final Animal monstre = (Animal) room.getObjects().get(ObjectType.MONSTER);
+                            if (monstre.getNbLifePoints() > 0) {
+                                out.println("Vous pouvez COMBATTRE " + monstre.getDescription().getConstTokens().get("monstre") + ".");
+                            }
+                            break;
+                    }
+                });
     }
 
     private void displayAnimal(Animal animal, String name) {

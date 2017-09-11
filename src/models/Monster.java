@@ -5,7 +5,7 @@ import services.tracery.TraceryResult;
 /**
  * Created by draluy on 30/08/2017.
  */
-public class Monster implements Animal {
+public class Monster extends Object implements Animal {
     private TraceryResult description;
     private int nbLifePoints = 20;
 
