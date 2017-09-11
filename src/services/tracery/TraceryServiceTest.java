@@ -33,7 +33,7 @@ class TraceryServiceTest {
 
     @org.junit.jupiter.api.Test
     void parse1() {
-        Assertions.assertEquals(TraceryService.instance.parse("sentence1"),"Le joueur entre dans le dongeon.");
+        Assertions.assertEquals(TraceryService.instance.parse("sentence1").getParsedText(),"Le joueur entre dans le dongeon.");
     }
 
     @org.junit.jupiter.api.Test
