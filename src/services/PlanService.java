@@ -17,9 +17,9 @@ public class PlanService {
     private PlanService() {
     }
 
-    private boolean shouldBeARoom() {
-        int randomNum = ThreadLocalRandom.current().nextInt(0, 2);
-        return randomNum > 0;
+    private boolean shouldBeARoom(int nbExits) {
+        int randomNum = ThreadLocalRandom.current().nextInt(0, 10 - nbExits);
+        return randomNum > 6;
     }
 
     public void generateExitsRand(final Room room) {
@@ -29,7 +29,7 @@ public class PlanService {
                     .stream()
                     .anyMatch(door -> door.getDirection().equals(dir));
 
-            if (!containsDirection && shouldBeARoom()) {
+            if (!containsDirection && shouldBeARoom( room.getExits().size())) {
                 room.getExits().put(new Door(dir), null);
             }
         }
