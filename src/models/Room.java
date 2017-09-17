@@ -15,8 +15,15 @@ public class Room {
 
     private TraceryResult roomDescription;
     private Map<ObjectType, Object> objects = new HashMap<>();
+    private int x,y;
 
     private final static int MAX_DANGER = 10;
+
+    public Room(int x, int y) {
+        this();
+        this.x = x;
+        this.y = y;
+    }
 
     public Room() {
         roomDescription = TraceryService.instance.parse("room_description");
@@ -42,5 +49,46 @@ public class Room {
 
     public Map<ObjectType, Object> getObjects() {
         return objects;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Room room = (Room) o;
+
+        if (x != room.x) return false;
+        if (y != room.y) return false;
+        if (!exits.equals(room.exits)) return false;
+        if (!roomDescription.equals(room.roomDescription)) return false;
+        return objects.equals(room.objects);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = exits.hashCode();
+        result = 31 * result + roomDescription.hashCode();
+        result = 31 * result + objects.hashCode();
+        result = 31 * result + x;
+        result = 31 * result + y;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "exits=" + exits +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

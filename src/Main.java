@@ -8,6 +8,7 @@ import models.Player;
 import models.Room;
 import services.PlanService;
 import services.ScreenService;
+import services.grid.GridService;
 import services.input.Action;
 import services.input.InputService;
 import services.tracery.TraceryResult;
@@ -22,6 +23,8 @@ public class Main {
         Plan.instance.initPlan();
         Player p = new Player();
         p.setDescription("Player");
+
+        GridService.instance.initGrid();
 
         ScreenService.instance.display(p, Plan.instance.getCurrentRoom());
 
