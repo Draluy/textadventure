@@ -65,5 +65,6 @@ class ModifierServiceTest {
         Assertions.assertEquals(ModifierService.instance.process("acheter", new String[]{"z"}), "achetez");
         Assertions.assertEquals(ModifierService.instance.process("accomplir", new String[]{"z"}), "accomplissez");
         Assertions.assertEquals(ModifierService.instance.process("être", new String[]{"z"}), "êtes");
+        Assertions.assertEquals(ModifierService.instance.process("discerner", new String[]{"z"}), "discernez");
     }
 }

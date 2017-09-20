@@ -6,9 +6,7 @@ import models.ObjectType;
 import models.Plan;
 import models.Player;
 import models.Room;
-import services.PlanService;
 import services.ScreenService;
-import services.grid.GridService;
 import services.input.Action;
 import services.input.InputService;
 import services.tracery.TraceryResult;
@@ -20,11 +18,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Plan.instance.initPlan();
         Player p = new Player();
         p.setDescription("Player");
-
-        GridService.instance.initGrid();
 
         ScreenService.instance.display(p, Plan.instance.getCurrentRoom());
 
@@ -54,18 +49,7 @@ public class Main {
                             .stream()
                             .filter(doorRoomEntry -> doorRoomEntry.getKey().getDirection().equals(dir.get()))
                             .findAny();
-
-                    if (entry.get().getValue() == null) {
-                        final Room nextRoom = new Room();
-                        final Door thisDoor = entry.get().getKey();
-                        final Door door = new Door(Direction.getOpposite(dir.get()), thisDoor.getDescription());
-                        currentRoom.getExits().put(thisDoor, nextRoom);
-                        nextRoom.getExits().put(door, currentRoom);
-                        PlanService.instance.generateExitsRand(nextRoom);
-                        Plan.instance.setCurrent(nextRoom);
-                    } else {
-                        Plan.instance.setCurrent(entry.get().getValue());
-                    }
+                    Plan.instance.setCurrent(entry.get().getValue());
                     break;
                 case FIGHT:
                     final Animal monster = (Animal) Plan.instance.getCurrentRoom().getObjects().get(ObjectType.MONSTER);

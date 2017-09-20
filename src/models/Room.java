@@ -67,18 +67,12 @@ public class Room {
         Room room = (Room) o;
 
         if (x != room.x) return false;
-        if (y != room.y) return false;
-        if (!exits.equals(room.exits)) return false;
-        if (!roomDescription.equals(room.roomDescription)) return false;
-        return objects.equals(room.objects);
+        return y == room.y;
     }
 
     @Override
     public int hashCode() {
-        int result = exits.hashCode();
-        result = 31 * result + roomDescription.hashCode();
-        result = 31 * result + objects.hashCode();
-        result = 31 * result + x;
+        int result = x;
         result = 31 * result + y;
         return result;
     }
@@ -86,7 +80,7 @@ public class Room {
     @Override
     public String toString() {
         return "Room{" +
-                "exits=" + exits +
+                "exits=" + exits.size() +
                 ", x=" + x +
                 ", y=" + y +
                 '}';

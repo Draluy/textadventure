@@ -67,7 +67,7 @@ public class ModifierService {
         if (res.endsWith("tre")) {
             res = res.replace("tre", "tes");
         }else  if (res.endsWith("er")) {
-            res = res.replace("er", "ez");
+            res = replaceLast(res,"er", "ez");
         } else if (res.equalsIgnoreCase("voir")) {
             res = "voyez";
         } else if (res.contains("oir")) {
@@ -79,6 +79,15 @@ public class ModifierService {
         }
 
         return res;
+    }
+
+    private String replaceLast(String string, String substring, String replacement)
+    {
+        int index = string.lastIndexOf(substring);
+        if (index == -1)
+            return string;
+        return string.substring(0, index) + replacement
+                + string.substring(index+substring.length());
     }
 
     private String feminize(final String token) {
