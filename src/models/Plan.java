@@ -8,9 +8,11 @@ import services.grid.GridService;
 public class Plan {
 
     private Plan() {
-        //todo: take one room at random
-        final Room [][] maze = GridService.instance.initGrid();
+        final Room[][] maze = GridService.instance.initGrid();
         current = maze[0][0];
+
+        //mark the ending.
+        maze[GridService.WIDTH - 1][GridService.HEIGHT - 1].setEnding(true);
     }
 
     public static final Plan instance = new Plan();

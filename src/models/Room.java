@@ -16,6 +16,7 @@ public class Room {
     private TraceryResult roomDescription;
     private Map<ObjectType, Object> objects = new HashMap<>();
     private int x,y;
+    private boolean isEnding;
 
     private final static int MAX_DANGER = 10;
 
@@ -57,6 +58,14 @@ public class Room {
 
     public int getY() {
         return y;
+    }
+
+    public boolean isEnding() {
+        return isEnding;
+    }
+
+    public void setEnding(boolean ending) {
+        isEnding = ending;
     }
 
     @Override

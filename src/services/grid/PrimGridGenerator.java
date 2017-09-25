@@ -34,10 +34,8 @@ public class PrimGridGenerator implements GridGenerator {
         final Set<Room> visitedRooms = new HashSet<>();
 
         visitedRooms.add(startingRoom);
-        System.out.println("First room is " + startingRoom);
 
         final Set<Room> frontierCells = getFrontierCells(visitedRooms, result);
-
 
         while (visitedRooms.size() < HEIGHT * WIDTH) {
             //take 1 at random
@@ -51,7 +49,6 @@ public class PrimGridGenerator implements GridGenerator {
 
             connectRooms (bridgeRoom, randomRoom);
 
-            System.out.println("Choosing as next room " + randomRoom);
             frontierCells.clear();
             frontierCells.addAll(getFrontierCells(visitedRooms, result));
         }
@@ -101,8 +98,8 @@ public class PrimGridGenerator implements GridGenerator {
     }
 
     private Set<Room> getAdjacentCells(final Room room, final Room[][] maze) {
-        Set<Room> rooms = new HashSet<>();
-        List<Point> points = Arrays.asList(new Point(-1, 0), new Point(1, 0), new Point(0, 1), new Point(0, -1));
+        final Set<Room> rooms = new HashSet<>();
+        final List<Point> points = Arrays.asList(new Point(-1, 0), new Point(1, 0), new Point(0, 1), new Point(0, -1));
         points.stream()
                 .forEach(point -> {
                     int newX = point.x + room.getX();

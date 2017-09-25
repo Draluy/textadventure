@@ -6,6 +6,7 @@ import models.Door;
 import models.ObjectType;
 import models.Player;
 import models.Room;
+import services.tracery.TraceryService;
 
 import java.io.PrintStream;
 import java.util.Optional;
@@ -21,13 +22,17 @@ public class ScreenService {
     private ScreenService() {
     }
 
-    public void display(Player player, Room room) {
+    public void display(final Player player, final Room room, final String message) {
         final Animal monstre = (Animal) room.getObjects().get(ObjectType.MONSTER);
         final boolean roomHasMonster = room.getObjects().containsKey(ObjectType.MONSTER) && monstre.getNbLifePoints() > 0;
         //Display players
         displayAnimal(player, player.getDescription().getParsedText());
         if (roomHasMonster) {
             displayAnimal((Animal) room.getObjects().get(ObjectType.MONSTER), room.getObjects().get(ObjectType.MONSTER).getDescription().getConstTokens().get("monstre"));
+        }
+
+        if (message != null) {
+            out.println(message);
         }
 
         //Display descriptions
@@ -42,6 +47,10 @@ public class ScreenService {
         displayActions(room);
 
         out.println("Quel est votre choix ?");
+    }
+
+    public void display(Player player, Room room) {
+        display(player, room, null);
     }
 
     private void displayActions(final Room room) {
@@ -102,5 +111,12 @@ public class ScreenService {
 
     public void display(String s) {
         out.println(s);
+    }
+
+
+    public void displayEnding(Player player, Room currentRoom) {
+        displayAnimal(player, player.getDescription().getParsedText());
+        out.println(currentRoom.getRoomDescription().getParsedText());
+        out.println(TraceryService.instance.parse("ending_description").getParsedText());
     }
 }

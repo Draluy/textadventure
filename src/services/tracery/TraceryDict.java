@@ -37,5 +37,6 @@ public class TraceryDict {
 
         symbols.put("monster_description", new HashSet<>(Arrays.asList("[monstre:syn_monstre]Vous #syn_voir.z# également #monstre#.")));
         symbols.put("room_description", new HashSet<>(Arrays.asList("[type_piece:syn_piece][meuble:syn_meuble]Vous #syn_se_trouver.z# dans #type_piece#. #partie_piece.c# sont #adj_mur.s#. #endroit_piece.c# de #type_piece.ad# vous #syn_voir.z# #meuble#.")));
+        symbols.put("ending_description", new HashSet<>(Arrays.asList("Peu importe ce que vous voyez en réalité. Devant vous se trouve le trésor que vous étiez venu chercher. Félicitations!")));
     }
 }

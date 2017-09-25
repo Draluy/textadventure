@@ -13,6 +13,7 @@ public enum Action {
     FIGHT("Combattre", false),
     SEARCH("Fouiller", false),
     EMPTY("empty", false),
+    END("end", false),
     EXIT("Exit", false);
 
     private String value;

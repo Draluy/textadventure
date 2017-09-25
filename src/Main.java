@@ -28,7 +28,7 @@ public class Main {
 
             //User input
             userInput = InputService.instance.getUserInput();
-            final Action action = userInput.orElse(Action.EMPTY);
+            Action action = userInput.orElse(Action.EMPTY);
 
             if (action.equals(Action.EXIT)) {
                 ScreenService.instance.display("Sortie de l'application.");
@@ -60,11 +60,15 @@ public class Main {
                     final TraceryResult objectDescription = new TraceryResult();
                     objectDescription.setParsedText(meubleName);
                     final Object object = new Object(objectDescription);
-                    //Plan.instance.getCurrentRoom().
                     break;
             }
 
             //display screen
+            final boolean isEndingReachd = Plan.instance.getCurrentRoom().isEnding();
+            if (isEndingReachd){
+                action= Action.END;
+            }
+
             switch (action) {
                 case NORTH:
                 case SOUTH:
@@ -75,14 +79,16 @@ public class Main {
                 case FIGHT:
                     final Animal monster = (Animal) Plan.instance.getCurrentRoom().getObjects().get(ObjectType.MONSTER);
                     if (monster.getNbLifePoints() <= 0) {
-                        ScreenService.instance.display("Vous tuez votre adversaire! ");
+                        ScreenService.instance.display(p, Plan.instance.getCurrentRoom(), "Vous tuez votre adversaire!");
                     }
                     ScreenService.instance.display(p, Plan.instance.getCurrentRoom());
                     break;
                 case SEARCH:
                     final Object furniture =  Plan.instance.getCurrentRoom().getObjects().get(ObjectType.FURNITURE);
-                    ScreenService.instance.display("Votre fouillle ne retourne rien.");
-                    ScreenService.instance.display(p, Plan.instance.getCurrentRoom());
+                    ScreenService.instance.display(p, Plan.instance.getCurrentRoom(), "Votre fouillle ne retourne rien.");
+                    break;
+                case END:
+                    ScreenService.instance.displayEnding(p, Plan.instance.getCurrentRoom());
                     break;
                 default:
                     ScreenService.instance.display("Choix invalide!");
@@ -90,7 +96,9 @@ public class Main {
             }
 
             //reset user input
-            userInput = Optional.empty();
+            if (!action.equals(Action.END)) {
+                userInput = Optional.empty();
+            }
         }
     }
 }
